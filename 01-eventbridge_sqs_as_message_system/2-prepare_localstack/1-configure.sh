@@ -14,12 +14,12 @@ aws sqs \
 aws events \
 	--endpoint-url http://localhost:4566 \
 	--region us-east-1 \
-	put-rule --name rule-send_welcome_email_on_user_registered \
+	put-rule --name rule-user_registered \
 	         --event-bus-name codely.domain_events \
 	         --event-pattern '{"detail-type": ["user.registered"]}'
 
 aws events put-targets --endpoint-url http://localhost:4566 \
     --region us-east-1 \
     --event-bus-name codely.domain_events \
-    --rule rule-send_welcome_email_on_user_registered \
+    --rule rule-user_registered \
     --targets "Id"="send_welcome_email_on_user_registered","Arn"="arn:aws:sqs:us-east-1:000000000000:send_welcome_email_on_user_registered"
