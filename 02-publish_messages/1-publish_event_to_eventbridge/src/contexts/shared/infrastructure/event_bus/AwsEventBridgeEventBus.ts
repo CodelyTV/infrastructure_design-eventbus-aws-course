@@ -15,22 +15,18 @@ export class AwsEventBridgeEventBus implements EventBus {
 
 	async publish(events: DomainEvent[]): Promise<void> {
 		const promises = events.map((event) => {
-			return this.client
-				.send(
-					new PutEventsCommand({
-						Entries: [
-							{
-								EventBusName: this.eventBusName,
-								Detail: DomainEventJsonSerializer.serialize(event),
-								DetailType: event.eventName,
-								Source: this.projectName,
-							},
-						],
-					}),
-				)
-				.catch((error) => {
-					console.error("AAA: ", error);
-				});
+			return this.client.send(
+				new PutEventsCommand({
+					Entries: [
+						{
+							EventBusName: this.eventBusName,
+							Detail: DomainEventJsonSerializer.serialize(event),
+							DetailType: event.eventName,
+							Source: this.projectName,
+						},
+					],
+				}),
+			);
 		});
 
 		await Promise.all(promises);

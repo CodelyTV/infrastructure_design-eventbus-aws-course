@@ -4,6 +4,7 @@ import { PathReporter } from "io-ts/PathReporter";
 import { NextRequest, NextResponse } from "next/server";
 
 import { AwsEventBridgeEventBus } from "../../../../../contexts/shared/infrastructure/event_bus/AwsEventBridgeEventBus";
+import { DomainEventFailover } from "../../../../../contexts/shared/infrastructure/event_bus/failover/DomainEventFailover";
 import { MariaDBConnection } from "../../../../../contexts/shared/infrastructure/MariaDBConnection";
 import { UserRegistrar } from "../../../../../contexts/shop/users/application/registrar/UserRegistrar";
 import { UserSearcher } from "../../../../../contexts/shop/users/application/search/UserSearcher";
@@ -26,9 +27,11 @@ export async function PUT(
 
 	const body = validatedRequest.right;
 
+	const mariaDBConnection = new MariaDBConnection();
+
 	await new UserRegistrar(
-		new MySqlUserRepository(new MariaDBConnection()),
-		new AwsEventBridgeEventBus(),
+		new MySqlUserRepository(mariaDBConnection),
+		new AwsEventBridgeEventBus(new DomainEventFailover(mariaDBConnection)),
 	).registrar(id, body.name, body.email, body.profilePicture);
 
 	return new Response("", { status: 201 });
