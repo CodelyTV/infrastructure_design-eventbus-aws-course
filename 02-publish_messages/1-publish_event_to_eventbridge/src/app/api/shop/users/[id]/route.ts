@@ -3,8 +3,7 @@ import * as t from "io-ts";
 import { PathReporter } from "io-ts/PathReporter";
 import { NextRequest, NextResponse } from "next/server";
 
-import { RabbitMqConnection } from "../../../../../contexts/shared/infrastructure/event_bus/rabbitmq/RabbitMqConnection";
-import { RabbitMqEventBus } from "../../../../../contexts/shared/infrastructure/event_bus/rabbitmq/RabbitMqEventBus";
+import { AwsEventBridgeEventBus } from "../../../../../contexts/shared/infrastructure/event_bus/AwsEventBridgeEventBus";
 import { MariaDBConnection } from "../../../../../contexts/shared/infrastructure/MariaDBConnection";
 import { UserRegistrar } from "../../../../../contexts/shop/users/application/registrar/UserRegistrar";
 import { UserSearcher } from "../../../../../contexts/shop/users/application/search/UserSearcher";
@@ -29,7 +28,7 @@ export async function PUT(
 
 	await new UserRegistrar(
 		new MySqlUserRepository(new MariaDBConnection()),
-		new RabbitMqEventBus(new RabbitMqConnection()),
+		new AwsEventBridgeEventBus(),
 	).registrar(id, body.name, body.email, body.profilePicture);
 
 	return new Response("", { status: 201 });

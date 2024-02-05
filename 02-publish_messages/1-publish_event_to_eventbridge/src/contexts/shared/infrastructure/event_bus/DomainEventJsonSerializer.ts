@@ -6,7 +6,7 @@ export class DomainEventJsonSerializer {
 			data: {
 				id: event.eventId,
 				type: event.eventName,
-				occurred_on: event.occurredOn.toISOString(),
+				occurredOn: event.occurredOn.toISOString(),
 				aggregateId: event.aggregateId,
 				attributes: event.toPrimitives(),
 			},

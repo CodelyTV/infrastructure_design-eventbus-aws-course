@@ -1,6 +1,6 @@
 version: '3'
 services:
-  2-publish_events_to_rabbitmq-mysql:
+  1-publish_events_to_eventbidge-mysql:
     image: mariadb:latest
     restart: always
     environment:
@@ -15,15 +15,18 @@ services:
       - db_data:/var/lib/mysql
       - ./databases/ecommerce.sql:/docker-entrypoint-initdb.d/init.sql
 
-  2-publish_events_to_rabbitmq-rabbitmq:
-    image: 'rabbitmq:3.12-management'
-    restart: unless-stopped
+  1-publish_events_to_eventbidge-localstack:
+    container_name: "${LOCALSTACK_DOCKER_NAME:-localstack-main}"
+    image: localstack/localstack
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "127.0.0.1:4566:4566"
+      - "127.0.0.1:4510-4559:4510-4559"
     environment:
-      - RABBITMQ_DEFAULT_USER=codely
-      - RABBITMQ_DEFAULT_PASS=codely
+      - SERVICES=events,sqs
+      - DEBUG=true
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
 
 volumes:
   db_data:
