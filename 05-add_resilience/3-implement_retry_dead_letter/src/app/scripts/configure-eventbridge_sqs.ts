@@ -55,7 +55,7 @@ async function main(): Promise<void> {
 
 	await Promise.all(extractRulesFromQueues(queues, eventBusName).map(createRule));
 
-	await Promise.all(queues.map(createQueue));
+	await Promise.all(queues.map(createQueueAndDeadLetter));
 
 	await Promise.all(extractTargetsFromQueues(queues, eventBusName).map(createTarget));
 }
@@ -79,10 +79,25 @@ async function createRule(rule: RuleConfig): Promise<void> {
 	);
 }
 
-async function createQueue(queue: QueueConfig): Promise<void> {
+async function createQueueAndDeadLetter(queue: QueueConfig): Promise<void> {
+	const deadLetterQueueName = `${queue.name}-dl`;
+
+	await sqsClient.send(
+		new CreateQueueCommand({
+			QueueName: deadLetterQueueName,
+		}),
+	);
+
 	await sqsClient.send(
 		new CreateQueueCommand({
 			QueueName: queue.name,
+			Attributes: {
+				RedrivePolicy: JSON.stringify({
+					maxReceiveCount: "2",
+					deadLetterTargetArn: `arn:aws:sqs:us-east-1:000000000000:${deadLetterQueueName}`,
+					VisibilityTimeout: "3",
+				}),
+			},
 		}),
 	);
 }
