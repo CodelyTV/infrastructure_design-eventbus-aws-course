@@ -1,3 +1,5 @@
+import { Service } from "diod";
+
 import { MariaDBConnection } from "../../MariaDBConnection";
 
 type DatabaseEvent = {
@@ -6,6 +8,7 @@ type DatabaseEvent = {
 	body: string;
 };
 
+@Service()
 export class DomainEventFailover {
 	constructor(private readonly connection: MariaDBConnection) {}
 

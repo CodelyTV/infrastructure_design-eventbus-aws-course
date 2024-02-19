@@ -8,6 +8,10 @@ import {
 } from "@aws-sdk/client-eventbridge";
 import { CreateQueueCommand, SQSClient } from "@aws-sdk/client-sqs";
 
+import { DomainEvent } from "../../contexts/shared/domain/event/DomainEvent";
+import { DomainEventSubscriber } from "../../contexts/shared/domain/event/DomainEventSubscriber";
+import { container } from "../../contexts/shared/infrastructure/dependency_injection/diod.config";
+
 type QueueConfig = {
 	name: string;
 	rulePattern: string[];
@@ -35,16 +39,14 @@ const sqsClient = new SQSClient({
 	endpoint: "http://127.0.0.1:4566",
 });
 
-const queues: QueueConfig[] = [
-	{
-		name: "codely-retention-send_welcome_email_on_user_registered",
-		rulePattern: ["codely.shop.user.registered"],
-	},
-	{
-		name: "codely-retention-update_last_activity_date_on_user_updated",
-		rulePattern: ["codely.shop.user.*"],
-	},
-];
+const subscribers = container
+	.findTaggedServiceIdentifiers<DomainEventSubscriber<DomainEvent>>("subscriber")
+	.map((id) => container.get(id));
+
+const queues: QueueConfig[] = subscribers.map((subscriber) => ({
+	name: subscriber.name().replaceAll(".", "-"),
+	rulePattern: subscriber.subscribedTo().map((event) => event.eventName),
+}));
 
 async function main(): Promise<void> {
 	const eventBusName = "codely.domain_events";

@@ -1,10 +1,12 @@
 import { EventBridgeClient, PutEventsCommand } from "@aws-sdk/client-eventbridge";
+import { Service } from "diod";
 
 import { DomainEvent } from "../../domain/event/DomainEvent";
 import { EventBus } from "../../domain/event/EventBus";
 import { DomainEventJsonSerializer } from "./DomainEventJsonSerializer";
 import { DomainEventFailover } from "./failover/DomainEventFailover";
 
+@Service()
 export class AwsEventBridgeEventBus implements EventBus {
 	private readonly client = new EventBridgeClient({
 		region: "us-east-1",

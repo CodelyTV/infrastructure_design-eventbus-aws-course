@@ -10,9 +10,8 @@ import { RetentionUserRepository } from "../../../retention/user/domain/Retentio
 import { FakeRetentionUserRepository } from "../../../retention/user/infrastructure/FakeRetentionUserRepository";
 import { EventBus } from "../../domain/event/EventBus";
 import { UuidGenerator } from "../../domain/UuidGenerator";
+import { AwsEventBridgeEventBus } from "../event_bus/AwsEventBridgeEventBus";
 import { DomainEventFailover } from "../event_bus/failover/DomainEventFailover";
-import { RabbitMqConnection } from "../event_bus/rabbitmq/RabbitMqConnection";
-import { RabbitMqEventBus } from "../event_bus/rabbitmq/RabbitMqEventBus";
 import { MariaDBConnection } from "../MariaDBConnection";
 import { OfficialUuidGenerator } from "../OfficialUuidGenerator";
 
@@ -22,9 +21,8 @@ builder.register(UuidGenerator).use(OfficialUuidGenerator);
 
 builder.registerAndUse(MariaDBConnection);
 
-builder.registerAndUse(RabbitMqConnection);
 builder.registerAndUse(DomainEventFailover);
-builder.register(EventBus).use(RabbitMqEventBus);
+builder.register(EventBus).use(AwsEventBridgeEventBus);
 
 builder.registerAndUse(SendWelcomeEmailOnUserRegistered).addTag("subscriber");
 builder.registerAndUse(WelcomeEmailSender);
