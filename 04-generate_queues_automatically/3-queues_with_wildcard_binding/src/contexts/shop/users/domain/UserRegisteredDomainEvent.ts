@@ -1,6 +1,6 @@
-import { DomainEvent } from "../../../shared/domain/event/DomainEvent";
+import { UserDomainEvent } from "./UserDomainEvent";
 
-export class UserRegisteredDomainEvent extends DomainEvent {
+export class UserRegisteredDomainEvent extends UserDomainEvent {
 	static eventName = "codely.shop.user.registered";
 
 	constructor(

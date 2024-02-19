@@ -1,11 +1,11 @@
-import { DomainEvent } from "../../../shared/domain/event/DomainEvent";
+import { UserDomainEvent } from "./UserDomainEvent";
 
 export type UserEmailUpdatedDomainEventPrimitives = {
 	id: string;
 	email: string;
 };
 
-export class UserEmailUpdatedDomainEvent extends DomainEvent {
+export class UserEmailUpdatedDomainEvent extends UserDomainEvent {
 	static eventName = "codely.shop.user.email.updated";
 
 	constructor(
