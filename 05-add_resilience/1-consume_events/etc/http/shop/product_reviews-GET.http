@@ -1,0 +1,1 @@
+GET http://localhost:3000/api/shop/product_reviews?product_id=1f2a73e3-e0e9-4418-8a53-d080871b24b3
