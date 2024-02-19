@@ -1,0 +1,2 @@
+POST http://localhost:3000/api/shared/event_bus
+Content-Type: application/json
