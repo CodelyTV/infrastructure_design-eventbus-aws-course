@@ -1,0 +1,43 @@
+{
+  "name": "ts-aggregates-example",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest",
+    "configure-eventbridge_sqs": "ts-node ./src/app/scripts/configure-eventbridge_sqs.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-eventbridge": "^3.504.0",
+    "@aws-sdk/client-sqs": "^3.515.0",
+    "@types/node": "20.5.3",
+    "@types/react": "18.2.21",
+    "@types/react-dom": "18.2.7",
+    "autoprefixer": "10.4.15",
+    "eslint": "8.47.0",
+    "eslint-config-next": "13.4.19",
+    "fp-ts": "^2.16.1",
+    "io-ts": "^2.2.20",
+    "mariadb": "^3.2.0",
+    "next": "13.4.19",
+    "postcss": "8.4.28",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss": "3.3.3",
+    "typescript": "5.1.6",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.1.0",
+    "@types/amqplib": "^0.10.4",
+    "@types/jest": "^29.5.5",
+    "@types/uuid": "^9.0.2",
+    "eslint-config-codely": "^3.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.2"
+  }
+}
