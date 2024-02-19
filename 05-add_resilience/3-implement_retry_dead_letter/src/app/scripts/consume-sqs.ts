@@ -71,14 +71,18 @@ async function consume(
 
 	console.log(`Consuming event: ${domainEvent.eventName}`);
 
-	await subscriber.on(domainEvent);
+	try {
+		await subscriber.on(domainEvent);
 
-	await sqsClient.send(
-		new DeleteMessageCommand({
-			QueueUrl: queueUrl,
-			ReceiptHandle: message.ReceiptHandle,
-		}),
-	);
+		await sqsClient.send(
+			new DeleteMessageCommand({
+				QueueUrl: queueUrl,
+				ReceiptHandle: message.ReceiptHandle,
+			}),
+		);
+	} catch (error) {
+		console.log(`Error consuming ${content["detail-type"]}`, error);
+	}
 }
 
 main().catch(console.error);

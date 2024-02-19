@@ -10,16 +10,14 @@ export class UserLastActivityUpdater {
 	async update(id: string, occurredOn: Date): Promise<void> {
 		const user = await this.repository.search(new UserId(id));
 
-		console.log("Last activity updated");
+		if (user === null) {
+			throw new Error(`The user with id ${id} does not exists on last activity`);
+		}
 
-		// if (user === null) {
-		// 	throw new Error(`The user with id ${id} does not exists`);
-		// }
-		//
-		// if (user.lastActivityDateIsOlderThan(occurredOn)) {
-		// 	user.updateLastActivityDate(occurredOn);
-		//
-		// 	await this.repository.save(user);
-		// }
+		if (user.lastActivityDateIsOlderThan(occurredOn)) {
+			user.updateLastActivityDate(occurredOn);
+
+			await this.repository.save(user);
+		}
 	}
 }
