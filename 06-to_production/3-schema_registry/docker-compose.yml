@@ -1,6 +1,6 @@
 version: '3'
 services:
-  3-retry_dead_letter-mysql:
+  3-schema_registry-mysql:
     image: mariadb:latest
     restart: always
     environment:
@@ -14,19 +14,6 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./databases/ecommerce.sql:/docker-entrypoint-initdb.d/init.sql
-
-  3-retry_dead_letter-localstack:
-    container_name: "${LOCALSTACK_DOCKER_NAME:-localstack-main}"
-    image: localstack/localstack
-    ports:
-      - "127.0.0.1:4566:4566"
-      - "127.0.0.1:4510-4559:4510-4559"
-    environment:
-      - SERVICES=events,sqs
-      - DEBUG=true
-    volumes:
-      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
-      - "/var/run/docker.sock:/var/run/docker.sock"
 
 volumes:
   db_data:

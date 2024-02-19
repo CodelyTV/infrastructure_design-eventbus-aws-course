@@ -10,7 +10,6 @@ import { DomainEventFailover } from "./failover/DomainEventFailover";
 export class AwsEventBridgeEventBus implements EventBus {
 	private readonly client = new EventBridgeClient({
 		region: "us-east-1",
-		endpoint: "http://127.0.0.1:4566",
 	});
 
 	private readonly eventBusName = "codely.domain_events";
@@ -38,6 +37,8 @@ export class AwsEventBridgeEventBus implements EventBus {
 
 	private async publishRaw(eventId: string, eventName: string, serializedEvent: string) {
 		try {
+			console.log("PUBLISHING");
+
 			return await this.client.send(
 				new PutEventsCommand({
 					Entries: [
@@ -51,6 +52,9 @@ export class AwsEventBridgeEventBus implements EventBus {
 				}),
 			);
 		} catch (error: unknown) {
+			console.log(error);
+			console.log("---------------------------------------------");
+
 			return this.failover.publish(eventId, eventName, serializedEvent);
 		}
 	}
