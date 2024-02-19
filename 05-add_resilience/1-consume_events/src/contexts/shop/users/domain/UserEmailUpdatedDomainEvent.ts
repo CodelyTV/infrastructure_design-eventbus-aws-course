@@ -1,3 +1,4 @@
+import { DomainEventAttributes } from "../../../shared/domain/event/DomainEvent";
 import { UserDomainEvent } from "./UserDomainEvent";
 
 export type UserEmailUpdatedDomainEventPrimitives = {
@@ -15,6 +16,20 @@ export class UserEmailUpdatedDomainEvent extends UserDomainEvent {
 		occurredOn?: Date,
 	) {
 		super(UserEmailUpdatedDomainEvent.eventName, id, eventId, occurredOn);
+	}
+
+	static fromPrimitives(
+		aggregateId: string,
+		eventId: string,
+		occurredOn: Date,
+		attributes: DomainEventAttributes,
+	): UserEmailUpdatedDomainEvent {
+		return new UserEmailUpdatedDomainEvent(
+			aggregateId,
+			attributes.email as string,
+			eventId,
+			occurredOn,
+		);
 	}
 
 	toPrimitives(): UserEmailUpdatedDomainEventPrimitives {

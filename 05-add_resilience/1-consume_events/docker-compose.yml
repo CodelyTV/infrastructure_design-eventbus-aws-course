@@ -1,6 +1,6 @@
 version: '3'
 services:
-  3-wildcard-mysql:
+  1-consume_events-mysql:
     image: mariadb:latest
     restart: always
     environment:
@@ -15,7 +15,7 @@ services:
       - db_data:/var/lib/mysql
       - ./databases/ecommerce.sql:/docker-entrypoint-initdb.d/init.sql
 
-  3-wildcard-localstack:
+  1-consume_events-localstack:
     container_name: "${LOCALSTACK_DOCKER_NAME:-localstack-main}"
     image: localstack/localstack
     ports:

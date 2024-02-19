@@ -1,4 +1,4 @@
-import { DomainEvent } from "../../../shared/domain/event/DomainEvent";
+import { DomainEvent, DomainEventAttributes } from "../../../shared/domain/event/DomainEvent";
 
 export class WelcomeEmailSentDomainEvent extends DomainEvent {
 	static eventName = "codely.retention.welcome_email.sent";
@@ -16,7 +16,25 @@ export class WelcomeEmailSentDomainEvent extends DomainEvent {
 		super(WelcomeEmailSentDomainEvent.eventName, id, eventId, occurredOn);
 	}
 
-	toPrimitives(): { [key: string]: unknown } {
+	static fromPrimitives(
+		aggregateId: string,
+		eventId: string,
+		occurredOn: Date,
+		attributes: DomainEventAttributes,
+	): WelcomeEmailSentDomainEvent {
+		return new WelcomeEmailSentDomainEvent(
+			aggregateId,
+			attributes.userId as string,
+			attributes.userName as string,
+			attributes.fromEmailAddress as string,
+			attributes.toEmailAddress as string,
+			attributes.emailBody as string,
+			eventId,
+			occurredOn,
+		);
+	}
+
+	toPrimitives(): DomainEventAttributes {
 		return {
 			id: this.id,
 			userId: this.userId,

@@ -1,5 +1,7 @@
 import { v4 } from "uuid";
 
+export type DomainEventAttributes = { [key: string]: unknown };
+
 export abstract class DomainEvent {
 	public readonly eventId: string;
 	public readonly occurredOn: Date;
@@ -14,5 +16,14 @@ export abstract class DomainEvent {
 		this.occurredOn = occurredOn ?? new Date();
 	}
 
-	abstract toPrimitives(): { [key: string]: unknown };
+	// eslint-disable-next-line @typescript-eslint/member-ordering
+	static fromPrimitives: (
+		aggregateId: string,
+		eventId: string,
+		occurredOn: Date,
+		attributes: DomainEventAttributes,
+		// eslint-disable-next-line no-use-before-define
+	) => DomainEvent;
+
+	abstract toPrimitives(): DomainEventAttributes;
 }

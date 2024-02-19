@@ -1,6 +1,6 @@
 import { Service } from "diod";
 
-import { DomainEventName } from "../../../../shared/domain/event/DomainEventName";
+import { DomainEventClass } from "../../../../shared/domain/event/DomainEventClass";
 import { DomainEventSubscriber } from "../../../../shared/domain/event/DomainEventSubscriber";
 import { UserDomainEvent } from "../../../../shop/users/domain/UserDomainEvent";
 import { UserLastActivityUpdater } from "./UserLastActivityUpdater";
@@ -13,7 +13,7 @@ export class UpdateLastActivityDateOnUserUpdated implements DomainEventSubscribe
 		await this.updater.update(event.id, event.occurredOn);
 	}
 
-	subscribedTo(): DomainEventName<UserDomainEvent>[] {
+	subscribedTo(): DomainEventClass[] {
 		return [UserDomainEvent];
 	}
 

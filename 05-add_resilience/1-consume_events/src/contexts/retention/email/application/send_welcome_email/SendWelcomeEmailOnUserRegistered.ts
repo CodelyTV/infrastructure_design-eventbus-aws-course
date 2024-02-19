@@ -1,6 +1,6 @@
 import { Service } from "diod";
 
-import { DomainEventName } from "../../../../shared/domain/event/DomainEventName";
+import { DomainEventClass } from "../../../../shared/domain/event/DomainEventClass";
 import { DomainEventSubscriber } from "../../../../shared/domain/event/DomainEventSubscriber";
 import { UserRegisteredDomainEvent } from "../../../../shop/users/domain/UserRegisteredDomainEvent";
 import { WelcomeEmailSender } from "./WelcomeEmailSender";
@@ -15,7 +15,7 @@ export class SendWelcomeEmailOnUserRegistered
 		await this.sender.send(event.id, event.name, event.email);
 	}
 
-	subscribedTo(): DomainEventName<UserRegisteredDomainEvent>[] {
+	subscribedTo(): DomainEventClass[] {
 		return [UserRegisteredDomainEvent];
 	}
 
