@@ -31,12 +31,10 @@ type TargetConfig = {
 
 const eventBridgeClient = new EventBridgeClient({
 	region: "us-east-1",
-	endpoint: "http://127.0.0.1:4566",
 });
 
 const sqsClient = new SQSClient({
 	region: "us-east-1",
-	endpoint: "http://127.0.0.1:4566",
 });
 
 const subscribers = container
@@ -94,9 +92,9 @@ async function createQueueAndDeadLetter(queue: QueueConfig): Promise<void> {
 			Attributes: {
 				RedrivePolicy: JSON.stringify({
 					maxReceiveCount: "2",
-					deadLetterTargetArn: `arn:aws:sqs:us-east-1:000000000000:${deadLetterQueueName}`,
-					VisibilityTimeout: "3",
+					deadLetterTargetArn: `arn:aws:sqs:us-east-1:992382584577:${deadLetterQueueName}`,
 				}),
+				VisibilityTimeout: "3",
 			},
 		}),
 	);
@@ -110,7 +108,7 @@ async function createTarget(target: TargetConfig): Promise<void> {
 			Targets: target.queueName.map((queueName) => {
 				return {
 					Id: queueName,
-					Arn: `arn:aws:sqs:us-east-1:000000000000:${queueName}`,
+					Arn: `arn:aws:sqs:us-east-1:992382584577:${queueName}`,
 				};
 			}),
 		}),

@@ -9,8 +9,7 @@
     "lint": "next lint",
     "test": "jest",
     "configure-eventbridge_sqs": "ts-node ./src/app/scripts/configure-eventbridge_sqs.ts",
-    "consume-sqs": "ts-node ./src/app/scripts/consume-sqs.ts",
-    "generate-eventbridge_sqs-terraform_files": "ts-node ./src/app/scripts/generate-eventbridge_sqs-terraform_files.ts"
+    "consume-sqs": "ts-node ./src/app/scripts/consume-sqs.ts"
   },
   "dependencies": {
     "@aws-sdk/client-eventbridge": "^3.504.0",
