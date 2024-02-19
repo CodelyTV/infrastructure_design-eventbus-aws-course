@@ -1,0 +1,32 @@
+version: '3'
+services:
+  2-generate_dynamically-mysql:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: adminpassword
+      MYSQL_DATABASE: ecommerce
+      MYSQL_USER: codely
+      MYSQL_PASSWORD: c0d3ly7v
+      TZ: UTC
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./databases/ecommerce.sql:/docker-entrypoint-initdb.d/init.sql
+
+  2-generate_dynamically-localstack:
+    container_name: "${LOCALSTACK_DOCKER_NAME:-localstack-main}"
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:4566:4566"
+      - "127.0.0.1:4510-4559:4510-4559"
+    environment:
+      - SERVICES=events,sqs
+      - DEBUG=true
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+volumes:
+  db_data:
