@@ -6,7 +6,8 @@ export type UserEmailUpdatedDomainEventPrimitives = {
 };
 
 export class UserEmailUpdatedDomainEvent extends DomainEvent {
-	static eventName = "user.email.updated";
+	static eventName = "codely.shop.user.email.updated";
+
 	constructor(
 		public readonly id: string,
 		public readonly email: string,

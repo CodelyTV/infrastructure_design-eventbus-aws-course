@@ -5,4 +5,6 @@ export interface DomainEventSubscriber<T extends DomainEvent> {
 	on(domainEvent: T): Promise<void>;
 
 	subscribedTo(): DomainEventName<T>[];
+
+	name(): string;
 }

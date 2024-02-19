@@ -17,6 +17,7 @@
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.15",
+    "diod": "^2.0.0",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",
     "fp-ts": "^2.16.1",
@@ -26,6 +27,7 @@
     "postcss": "8.4.28",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "reflect-metadata": "^0.2.1",
     "tailwindcss": "3.3.3",
     "typescript": "5.1.6",
     "uuid": "^9.0.0"

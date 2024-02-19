@@ -1,8 +1,11 @@
+import { Service } from "diod";
+
 import { EventBus } from "../../../../shared/domain/event/EventBus";
 import { UuidGenerator } from "../../../../shared/domain/UuidGenerator";
 import { EmailSender } from "../../domain/EmailSender";
 import { WelcomeEmail } from "../../domain/WelcomeEmail";
 
+@Service()
 export class WelcomeEmailSender {
 	constructor(
 		private readonly uuidGenerator: UuidGenerator,

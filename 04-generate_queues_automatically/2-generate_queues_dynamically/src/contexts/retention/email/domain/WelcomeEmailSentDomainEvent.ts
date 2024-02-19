@@ -1,6 +1,8 @@
 import { DomainEvent } from "../../../shared/domain/event/DomainEvent";
 
 export class WelcomeEmailSentDomainEvent extends DomainEvent {
+	static eventName = "codely.retention.welcome_email.sent";
+
 	constructor(
 		public readonly id: string,
 		public readonly userId: string,
@@ -11,7 +13,7 @@ export class WelcomeEmailSentDomainEvent extends DomainEvent {
 		eventId?: string,
 		occurredOn?: Date,
 	) {
-		super("welcome_email.sent", id, eventId, occurredOn);
+		super(WelcomeEmailSentDomainEvent.eventName, id, eventId, occurredOn);
 	}
 
 	toPrimitives(): { [key: string]: unknown } {

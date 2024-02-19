@@ -1,6 +1,9 @@
+import { Service } from "diod";
+
 import { UserId } from "../../../../shop/users/domain/UserId";
 import { RetentionUserRepository } from "../../domain/RetentionUserRepository";
 
+@Service()
 export class UserLastActivityUpdater {
 	constructor(private readonly repository: RetentionUserRepository) {}
 

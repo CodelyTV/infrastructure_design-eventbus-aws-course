@@ -1,54 +1,74 @@
-import { createPool, Pool } from "mariadb";
+import { Service } from "diod";
+import { createPool, Pool, PoolConnection } from "mariadb";
 
-interface MinimalConn {
-	query: (sql: string) => Promise<unknown>;
-	end: () => Promise<void>;
-}
-
+@Service()
 export class MariaDBConnection {
-	private readonly pool: Pool = createPool({
-		host: "localhost",
-		user: "codely",
-		password: "c0d3ly7v",
-		database: "ecommerce",
-	}) as Pool;
+	private poolInstance: Pool | null = null;
+
+	private get pool(): Pool {
+		if (!this.poolInstance) {
+			this.poolInstance = createPool({
+				host: "localhost",
+				user: "codely",
+				password: "c0d3ly7v",
+				database: "ecommerce",
+			});
+		}
+
+		return this.poolInstance;
+	}
 
 	async searchOne<T>(query: string): Promise<T | null> {
-		let conn: MinimalConn | null = null;
+		let conn: PoolConnection | null = null;
 		try {
-			conn = (await this.pool.getConnection()) as MinimalConn;
-			const rows = (await conn.query(query)) as T[];
+			conn = await this.pool.getConnection();
+			const rows = await conn.query(query);
 
 			return rows[0] ?? null;
+		} catch (error) {
+			console.error(error);
+			throw error;
 		} finally {
 			if (conn) {
-				await conn.end();
+				await conn.release();
 			}
 		}
 	}
 
 	async searchAll<T>(query: string): Promise<T[]> {
-		let conn: MinimalConn | null = null;
+		let conn: PoolConnection | null = null;
 		try {
-			conn = (await this.pool.getConnection()) as MinimalConn;
+			conn = await this.pool.getConnection();
 
-			return (await conn.query(query)) as T[];
+			return await conn.query(query);
+		} catch (error) {
+			console.error(error);
+			throw error;
 		} finally {
 			if (conn) {
-				await conn.end();
+				await conn.release();
 			}
 		}
 	}
 
 	async execute(query: string): Promise<void> {
-		let conn: MinimalConn | null = null;
+		let conn: PoolConnection | null = null;
 		try {
-			conn = (await this.pool.getConnection()) as MinimalConn;
+			conn = await this.pool.getConnection();
 			await conn.query(query);
+		} catch (error) {
+			console.error(error);
+			throw error;
 		} finally {
 			if (conn) {
-				await conn.end();
+				await conn.release();
 			}
+		}
+	}
+
+	async close(): Promise<void> {
+		if (this.poolInstance !== null) {
+			await this.pool.end();
 		}
 	}
 }
