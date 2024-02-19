@@ -147,24 +147,20 @@ PATTERN
 }
 
 function generateEventBridgeTargetTerraform(target: TargetConfig): string {
-	const targets = target.queueName
-		.map((queueName) => {
-			return `{
-    id: "${queueName}",
-    arn: aws_sqs_queue.${queueName}.arn
-}`;
-		})
-		.join(",\n");
+	return target.queueName
+		.map((queue) => {
+			const ruleName = target.ruleName.replaceAll(".", "-");
+			const queueName = queue.replaceAll(".", "-");
 
-	return `
-resource "aws_cloudwatch_event_target" "${target.ruleName.replaceAll(".", "-")}" {
-  rule           = aws_cloudwatch_event_rule.${target.ruleName}.name
+			return `
+resource "aws_cloudwatch_event_target" "${ruleName}-${queueName}" {
+  rule           = aws_cloudwatch_event_rule.${ruleName}.name
   event_bus_name = "${target.eventBusName}"
-  target {
-    ${targets}
-  }
+  arn            = aws_sqs_queue.${queueName}.arn
 }
 `;
+		})
+		.join("\n\n");
 }
 
 function writeTerraformFile(resourceName: string, content: string): void {
