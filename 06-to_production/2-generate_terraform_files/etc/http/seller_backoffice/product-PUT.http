@@ -1,0 +1,14 @@
+PUT http://localhost:3000/api/seller_backoffice/products/{{$random.uuid}}
+Content-Type: application/json
+
+{
+  "name": "Very good product 2",
+  "price": {
+        "amount": 12,
+        "currency": "EUR"
+	},
+  "imageUrls": [
+    "https://picsum.photos/200/300"
+  ],
+  "creationDate": 1694472992
+}
