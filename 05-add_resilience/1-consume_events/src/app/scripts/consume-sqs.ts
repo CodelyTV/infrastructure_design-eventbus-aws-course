@@ -34,7 +34,7 @@ const sqsClient = new SQSClient({
 
 async function main(): Promise<void> {
 	await Promise.all(
-		subscribers.flatMap((subscriber) => {
+		subscribers.map((subscriber) => {
 			const queueName = subscriber.name().replaceAll(".", "-");
 			const queueUrl = `https://sqs.us-east-1.amazonaws.com/000000000000/${queueName}`;
 

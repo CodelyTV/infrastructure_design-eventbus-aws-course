@@ -92,10 +92,10 @@ async function createQueueAndDeadLetter(queue: QueueConfig): Promise<void> {
 		new CreateQueueCommand({
 			QueueName: queue.name,
 			Attributes: {
-				RedrivePolicy: {
+				RedrivePolicy: JSON.stringify({
 					maxReceiveCount: "3",
 					deadLetterTargetArn: `arn:aws:sqs:us-east-1:000000000000:${deadLetterQueueName}`,
-				},
+				}),
 				VisibilityTimeout: "3",
 			},
 		}),
