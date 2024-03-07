@@ -5,7 +5,7 @@
 </p>
 
 <h1 align="center">
-    {COURSE_EMOJI} {COURSE_NAME_IN_ENGLISH}
+    🏗️ Infrastructure Design: AWS SQS as a Message Queue
 </h1>
 
 <p align="center">
@@ -14,10 +14,10 @@
 </p>
 
 <p align="center">
-    {COURSE_SUMMARY_IN_ENGLISH}
+    Apply AWS SQS as a Message Queue with the most optimal infrastructure design.
 </p>
 
 <p align="center">
-  <a href="https://github.com/CodelyTV/{REPOSITORY_NAME}/stargazers">Stars are welcome 😊</a><br><br>
-  Course (Spanish): <a href="{COURSE_URL}">{COURSE_NAME_IN_SPANISH}</a>
+  <a href="https://github.com/CodelyTV/infrastructure_design-eventbus-aws-course/stargazers">Stars are welcome 😊</a><br><br>
+  Course (Spanish): <a href="https://pro.codely.com/library/diseno-de-infraestructura-aws-sqs-como-cola-de-mensajeria-220542">Diseño de infraestructura: AWS SQS como cola de mensajería</a>
 </p>
